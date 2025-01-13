@@ -1,0 +1,139 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
+
+const CalculatorApp = () => {
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
+
+  // Function to handle button presses
+  const handlePress = (value) => {
+    setInput(input + value);
+  };
+
+  // Function to handle equals button press
+  const handleEquals = () => {
+    try {
+      setResult(eval(input)); // Evaluate the expression
+      setInput('');
+    } catch (error) {
+      setResult('Error');
+    }
+  };
+
+  // Function to clear the input
+  const handleClear = () => {
+    setInput('');
+    setResult('');
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      
+      <View style={styles.displayContainer}>
+        <TextInput
+          value={input}
+          style={styles.input}
+          editable={false}
+          placeholder="Enter expression"
+        />
+        <TextInput
+          value={result ? `= ${result}` : ''}
+          style={[styles.result, result && { color: 'green' }]}
+          editable={false}
+        />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <View style={styles.row}>
+          <Button mode="outlined" onPress={() => handlePress('1')} style={styles.button}>1</Button>
+          <Button mode="outlined" onPress={() => handlePress('2')} style={styles.button}>2</Button>
+          <Button mode="outlined" onPress={() => handlePress('3')} style={styles.button}>3</Button>
+          <Button mode="outlined" onPress={() => handlePress('+')} style={styles.button}>+</Button>
+        </View>
+        <View style={styles.row}>
+          <Button mode="outlined" onPress={() => handlePress('4')} style={styles.button}>4</Button>
+          <Button mode="outlined" onPress={() => handlePress('5')} style={styles.button}>5</Button>
+          <Button mode="outlined" onPress={() => handlePress('6')} style={styles.button}>6</Button>
+          <Button mode="outlined" onPress={() => handlePress('-')} style={styles.button}>-</Button>
+        </View>
+        <View style={styles.row}>
+          <Button mode="outlined" onPress={() => handlePress('7')} style={styles.button}>7</Button>
+          <Button mode="outlined" onPress={() => handlePress('8')} style={styles.button}>8</Button>
+          <Button mode="outlined" onPress={() => handlePress('9')} style={styles.button}>9</Button>
+          <Button mode="outlined" onPress={() => handlePress('*')} style={styles.button}>*</Button>
+        </View>
+        <View style={styles.row}>
+          <Button mode="outlined" onPress={() => handlePress('0')} style={styles.button}>0</Button>
+          <Button mode="outlined" onPress={() => handlePress('.')} style={styles.button}>.</Button>
+          <Button mode="contained" onPress={handleEquals} style={[styles.button, styles.equalsButton]}>=</Button>
+          <Button mode="outlined" onPress={() => handlePress('/')} style={styles.button}>/</Button>
+        </View>
+        <View style={styles.row}>
+          <Button mode="outlined" onPress={handleClear} style={[styles.button, styles.clearButton]}>C</Button>
+        </View>
+      </View>
+
+      <Text style={styles.footer}>Calc by Vijay</Text>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 50,
+    backgroundColor: '#fff',
+  },
+  displayContainer: {
+    padding: 20,
+    backgroundColor: '#f7f7f7',
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+  },
+  input: {
+    fontSize: 30,
+    textAlign: 'right',
+    marginBottom: 10,
+    padding: 10,
+  },
+  result: {
+    fontSize: 20,
+    textAlign: 'right',
+    color: 'black',
+    marginTop: 5,
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 5,
+  },
+  button: {
+    flex: 1,
+    margin: 5,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  equalsButton: {
+    backgroundColor: 'green',
+  },
+  clearButton: {
+    backgroundColor: 'red',
+    flex: 1,
+    height: 60,
+  },
+  footer: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#888',
+    marginBottom: 20,
+  },
+});
+
+export default CalculatorApp;
